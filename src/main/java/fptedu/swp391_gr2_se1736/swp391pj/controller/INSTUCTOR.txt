@@ -1,0 +1,62 @@
+
+</>This file is for instruction of create REST API controller in this project
+</>If you have any confusing when coding, see some examples below:
+
+
+    <o> import ...
+    <o> @Controller
+    <o> @RequestMapping("/parenturl")            --> yoururl is your parent url. "" or "/" means "localhost:8080"
+    <o> public class YourController{
+    <o>     @Autowire
+    <o>     private YourService1 yourService1;  
+    <o>     @Autowire
+    <o>     private YourService2 yourService2; --> you can also declare your your service object needed
+    <o>
+    <o>
+    <o>     //Now we go to the REST API
+    <o>     
+    <o>     @RequestMapping("/yoururl")  --> url will be "localhost:8080/parenturl/yoururl"
+    <o>     public ModelAndView yourMethod(){
+    <o>         ModelAndView mv = new ModelAndView("ViewName")  --> you can set your view by pass the name of html page you want as an parameter
+    <o>         // mv.setViewName("ViewName) --> Another way to set view
+    <o>         /* add your logic code here */
+    <o>         
+    <o>         mv.addObject("namepass1", object1); --> for send data to view
+    <o>         mv.addObject("namepass2", object2);
+    <o>         ...// can set more for your purpose
+    <o>         
+    <o>         return mv --> this will send you to the page view with datasource above
+    <o>     }
+    <o>
+    <o>     @PostMapping("/loginss")
+    <o>     public ModelAndView UserLogin(@RequestParam(name = "formdata") String dataname,...more if you have 
+    <o>
+    <o>
+
+@GetMapping("/list")
+    public ModelAndView ShowUserList(){
+        ModelAndView mv = new ModelAndView("listuser");
+        List<UsersDTO> users = userService.getUserList();
+        mv.addObject("users", users);
+        return mv; 
+    }
+
+    @RequestMapping("/login")
+    public ModelAndView showLoginPage(){
+        ModelAndView mv = new ModelAndView("loginpage");
+        return mv;
+    }
+
+    @PostMapping("/loginss")
+    public ModelAndView UserLogin(@RequestParam(name = "uname") String username,@RequestParam(name = "upass") String userspass){
+        ModelAndView mv = new ModelAndView("listuser");
+        UsersDTO userlogin = userService.getLoginUser(username, userspass);
+        if(userlogin == null){
+            mv.setViewName("loginpage");
+            
+        }else{
+            mv.addObject("users", userlogin);
+        }
+            
+        return mv;
+    }
